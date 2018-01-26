@@ -45,8 +45,7 @@ def encryptFence(plain, rails, offset=0, debug=False):
 
 
 if __name__ == "__main__":
-    plain = "defendhim"
+    plain = "DEFENDHIM"
     print plain
     cipher = encryptFence(plain, 3, offset=4, debug=True)
     print cipher
-    
