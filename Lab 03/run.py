@@ -233,9 +233,9 @@ class des():
 
 if __name__ == '__main__':
     key = [0x0F, 0x15, 0x71, 0xC9, 0x47, 0xD9, 0xE8, 0x59]
-    print "Key: ", key
+    print "The Key is : ", key
     plaintext = [0x02, 0x46, 0x8A, 0xCE, 0xEC, 0xA8, 0x64, 0x20]
-    print "PlainText: ", plaintext
+    print "The PlainText is : ", plaintext
     d = des()
     r = d.encrypt(key, plaintext)
-    print "Ciphered: %r " % r
+    print "The Cipher Text is : %r " % r
