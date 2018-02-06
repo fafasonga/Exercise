@@ -125,14 +125,14 @@ def bit_array_to_string(array):
 
 # Return the binary value as a string of the given size
 def binvalue(val, bitsize):
-    binval = bin(val)[2:] if isinstance(val, int) else bin(ord(val))[2:]
-    if len(binval) > bitsize:
-        raise "binary value larger than the expected size"
-    while len(binval) < bitsize:
-        binval = "0" + binval                                           # Add as many 0 as needed to get the wanted size
-    return binval
+    bin_val = bin(val)[2:] if isinstance(val, int) else bin(ord(val))[2:]
+    if len(bin_val) > bitsize:
+        raise Exception("The binary value is larger than the expected size")
+    while len(bin_val) < bitsize:
+        bin_val = "0" + bin_val                                           # Add as many 0 as needed to get the wanted size
+    return bin_val
 
-# Split a list into sublists of size "n"
+# Split a list into n sizes sublists
 def nsplit(s, n):
     return [s[k:k + n] for k in xrange(0, len(s), n)]
 
@@ -147,7 +147,7 @@ class des():
 
     def run(self, key, plaintext, action=ENCRYPT, padding=False):
         if len(key) < 8:
-            raise "Key Should be 8 bytes long"
+            raise Exception("The Key should be 8 bytes long")
         elif len(key) > 8:
             key = key[:8]                                                 # If key size is above 8bytes, cut to be 8bytes long
 
@@ -157,28 +157,28 @@ class des():
         if padding and action == ENCRYPT:
             self.addPadding()
         elif len(self.plaintext) % 8 != 0:                                      # If not padding specified data size must be multiple of 8 bytes
-            raise "Data size should be multiple of 8"
+            raise Exception("The Data size should be multiple of 8")
 
-        self.generatekeys()                                                # Generate all the keys
+        self.generate_keys()                                                # Generate all the keys
         plaintext_blocks = nsplit(self.plaintext, 8)                                 # Split the text in blocks of 8 bytes so 64 bits
         result = list()
         for block in plaintext_blocks:                                          # Loop over all the blocks of data
             block = string_to_bit_array(block)                             # Convert the block in bit array
-            block = self.permut(block, PI)                                 # Apply the initial permutation
+            block = self.permute(block, PI)                                 # Apply the initial permutation
             g, d = nsplit(block, 32)                                       # g(LEFT), d(RIGHT)
             tmp = None
             for i in range(16):                                            # Do the 16 rounds
-                d_e = self.permut(d, E)                                    # Expand d to match Ki size (48bits)
+                d_e = self.permute(d, E)                                    # Expand d to match Ki size (48bits)
                 if action == ENCRYPT:
                     tmp = self.xor(self.keys[i], d_e)                      # If encrypt use Ki
                 else:
                     tmp = self.xor(self.keys[15 - i], d_e)                 # If decrypt start by the last key
                 tmp = self.substitute(tmp)                                 # Method that will apply the SBOXes
-                tmp = self.permut(tmp, P)
+                tmp = self.permute(tmp, P)
                 tmp = self.xor(g, tmp)
                 g = d
                 d = tmp
-            result += self.permut(d + g, PI_1)                              # Do the last permutation and append the result to result
+            result += self.permute(d + g, PI_1)                              # Do the last permutation and append the result to result
         final_res = bit_array_to_string(result)
 
         if padding and action == DECRYPT:
@@ -200,26 +200,26 @@ class des():
         return result
 
     # Permute the given block using the given table (so generic method)
-    def permut(self, block, table):
+    def permute(self, block, table):
         return [block[x - 1] for x in table]
 
     def xor(self, t1, t2):                                                    # Apply a xor and return the resulting list
         return [x ^ y for x, y in zip(t1, t2)]
 
-    def generatekeys(self):                                                   # Algorithm that generates all the keys
+    def generate_keys(self):                                                   # Algorithm that generates all the keys
         self.keys = []
         key = string_to_bit_array(self.password)
-        key = self.permut(key, CP_1)                                          # Apply the initial permutation on the key
+        key = self.permute(key, CP_1)                                          # Apply the initial permutation on the key
         g, d = nsplit(key, 28)                                                # Split in the direction (g->LEFT),(d->RIGHT)
         for i in range(16):                                                   # Apply the 16 rounds
-            g, d = self.shift(g, d, SHIFT[i])                                 # Apply the shift associated with the round (not always 1)
+            g, d = self.shift_list(g, d, SHIFT[i])                                 # Apply the shift associated with the round (not always 1)
             tmp = g + d                                                       # Merging them
-            self.keys.append(self.permut(tmp, CP_2))                          # Applying permutation to get the Ki
+            self.keys.append(self.permute(tmp, CP_2))                          # Applying permutation to get the Ki
 
-    def shift(self, g, d, n):                                                 # Shifting the list of the given value
+    def shift_list(self, g, d, n):                                                 # Shifting the list of the given value
         return g[n:] + g[:n], d[n:] + d[:n]
 
-    def addPadding(self):                                                     # Add padding to the datas using PKCS5 spec.
+    def addPadding(self):                                                     # Add padding to the data using PKCS5 spec.
         pad_len = 8 - (len(self.plaintext) % 8)
         self.plaintext += pad_len * chr(pad_len)
 
@@ -233,9 +233,9 @@ class des():
 
 if __name__ == '__main__':
     key = [0x0F, 0x15, 0x71, 0xC9, 0x47, 0xD9, 0xE8, 0x59]
-    print "The Key is : ", key
+    print("The Key is : ", key)
     plaintext = [0x02, 0x46, 0x8A, 0xCE, 0xEC, 0xA8, 0x64, 0x20]
-    print "The PlainText is : ", plaintext
+    print("The PlainText is : ", plaintext)
     d = des()
     r = d.encrypt(key, plaintext)
-    print "The Cipher Text is : %r " % r
+    print("The Cipher Text is : %r" %r)
