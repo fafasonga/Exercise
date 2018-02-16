@@ -52,8 +52,10 @@ if __name__ == '__main__':
     print(L2I)
     print(I2L)
 
-    print ("The Entered Common Prime value: \n q = " + str(q) + " , \n and Primitive root of \n Alpha value = " + str(a) + "\n")
-    print ("The Entered Private Key of Party: \n A = " + str(A) + ", \n and Private Key of Party: \n B = " + str(B) + "\n")
+    print ("The Entered Common Prime value: \n q = " + str(q)
+           + " , \n and Primitive root of \n Alpha value = " + str(a) + "\n")
+    print ("The Entered Private Key of Party: \n A = " + str(A)
+           + ", \n and Private Key of Party: \n B = " + str(B) + "\n")
 
     Y_A = public_Key(a, A, q)
     Y_B = public_Key(a, B, q)
@@ -68,7 +70,8 @@ if __name__ == '__main__':
     check_success(K_A, K_B)
 
     plaintext = "helloIamcommingon23offebruary"
-    print("\nT23he PlainText is: \n " + plaintext + "\n" + "\n The PlainText in UPPERCASE is: \n " + plaintext.upper() + "\n")
+    print("\nThe PlainText is: \n " + plaintext + "\n" + "\n The PlainText in UPPERCASE is: \n "
+          + plaintext.upper() + "\n")
 
     ciphertext = encrypt_another(plaintext, K_A)
     print("\nThe Generated CipherText is: \n ", ciphertext)
