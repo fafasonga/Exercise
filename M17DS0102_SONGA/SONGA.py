@@ -31,7 +31,7 @@ def hmac(key, blocksize, message):
     key_message.append(I_key_pad)
     print("After Appending the I pad to the Message ", np.array(key_message))
 
-    # Appending the H( S2 || H( S1 || M ) )
+    # Appending the ( S2 || M )
     key_message.append(O_key_pad)
     print("After Appending the O pad to the Message and I pad ", np.array(key_message))
 
