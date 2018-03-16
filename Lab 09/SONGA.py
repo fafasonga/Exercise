@@ -47,13 +47,13 @@ def xor_func(key, pad):
 
     return xor_output
 
-
-
 def binary(num, pre='0b', length=8, spacer=0):
     return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
 L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ", range(0, 26)))
 I2L = dict(zip(range(0, 26), "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+
+
 
 if __name__ == '__main__':
     try:
