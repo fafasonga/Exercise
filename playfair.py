@@ -134,24 +134,24 @@ def decrypt(cipher):
 # key="MONARCHY"
 # message="HAMMER"
 
-print "Playfair Cipher"
+print ("Playfair Cipher")
 order=input("Choose :\n1,Encrypting \n2,Decrypting\n")
 if order==1:
 	key=raw_input("Please input the key : ")
 	message=raw_input("Please input the message : ")
-	print "Encrypting: \n"+"Message: "+message
-	print "Break the message into digraphs: "
-	print message_to_digraphs(message)
-	print "Matrix: "
-	print matrix(key) 
-	print "Cipher: " 
-	print encrypt(message)
+	print ("Encrypting: \n"+"Message: "+message)
+	print ("Break the message into digraphs: ")
+	print (message_to_digraphs(message))
+	print ("Matrix: ")
+	print (matrix(key)) 
+	print ("Cipher: " )
+	print (encrypt(message))
 elif order==2:
 	key=raw_input("Please input the key : ")
 	cipher=raw_input("Please input the cipher text: ")
-	print "\nDecrypting: \n"+"Cipher: "+cipher
-	print "Plaintext:"
-	print decrypt(cipher)
+	print ("\nDecrypting: \n"+"Cipher: "+cipher)
+	print ("Plaintext:")
+	print (decrypt(cipher))
 else:
-	print "Error"
+	print ("Error")
 
