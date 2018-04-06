@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% block body %}
+
+<strong> <p>Welcome to the Registration Form!</p>
+    <div>
+        <a href='/logout'> Click to Logout </a>
+        <br />
+    </div>
+</strong>
+
+  <form  action="" method="post" role="form">
+    {{ form.csrf }}
+    <div class="form-group" align="center">
+        <label for="name"> Name:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Your name...">
+         <br>
+        <br />
+        <label for="email"> Email :</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="Your Email...">
+        <br>
+        <br />
+        <label for="password"> Password:</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password...">
+        <br />
+        <br />
+        <br />
+    </div>
+        <button type="submit" class="btn btn-success"> Sign Up </button>
+  </form>
+
+    <br />
+    <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+
+        {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+            <div class="alert alert-info">
+            <strong>Success! </strong> {{ message[1] }}
+             <a href='/'>Log in</a>
+            </div>
+        {% endif %}
+
+        {% if "Error" in message[1]: %}
+            <div class="alert alert-warning">
+            {{ message[1] }}
+                <a href='/'>Log in</a>
+            </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+{% endblock %}
+

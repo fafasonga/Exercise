@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% block body %}
+{% if session['logged_in'] %}
+<strong> <p>Welcome to the Database form!</p>
+    <div>
+        <a href='/logout'> Click to Logout </a>
+        <br />
+        <br />
+        <a href='/register'> Click to Register </a>
+    </div>
+</strong>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th style="color: blue"><strong>ID</strong></th>
+                    <th style="color: blue"><strong>Username</strong></th>
+                    <th style="color: blue"><strong>Password</strong></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                 {% for row in data %}
+                    <tr>
+                    <th>{{ row['id'] }}</th>
+                    <th>{{ row['username'] }}</th>
+                    <th>{{ row['password'] }}</th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
